@@ -5,4 +5,6 @@ const carRoutes = Router();
 
 carRoutes.post('/', carController.carController.register);
 
+carRoutes.get('/', carController.carController.findAll);
+
 export default carRoutes;

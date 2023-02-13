@@ -61,7 +61,7 @@ describe('Ao tentar', function () {
         },
       ];
 
-      sinon.stub(Model, 'findAll').resolves(allCarsMock);
+      sinon.stub(Model, 'find').resolves(allCarsMock);
   
       const service = new CarService();
       const result = await service.findAll();

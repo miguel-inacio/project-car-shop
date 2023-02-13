@@ -2,7 +2,7 @@ import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import CarODM from '../Models/CarODM';
 
-class KeyService {
+export default class CarService {
   public model = new CarODM();
 
   public createCarDomain(car: ICar | null): Car | null {
@@ -17,5 +17,3 @@ class KeyService {
     return this.createCarDomain(newCar);
   }
 }
-
-export default KeyService;

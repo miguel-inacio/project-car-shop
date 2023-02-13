@@ -1,16 +1,16 @@
 import ICar from '../Interfaces/ICar';
 
-export default class Car implements ICar {
-  readonly id: string | undefined;
-  readonly model: string;
-  readonly year: number;
-  readonly color: string;
-  readonly status?: boolean | undefined;
-  readonly buyValue: number;
-  readonly doorsQty: number;
-  readonly seatsQty: number;
+export default class Car {
+  protected id?: string | undefined;
+  protected model: string;
+  protected year: number;
+  protected color: string;
+  protected status?: boolean | undefined;
+  protected buyValue: number;
+  private doorsQty: number;
+  private seatsQty: number;
 
-  constructor(newCar: Omit <ICar, 'id'>) {
+  constructor(newCar: ICar) {
     this.model = newCar.model;
     this.year = newCar.year;
     this.color = newCar.color;
@@ -18,5 +18,21 @@ export default class Car implements ICar {
     this.buyValue = newCar.buyValue;
     this.doorsQty = newCar.doorsQty;
     this.seatsQty = newCar.seatsQty;
+  }
+
+  public getDoorsQty() {
+    return this.doorsQty;
+  }
+
+  public setDoorsQty(newdoorsQty: number) {
+    this.doorsQty = newdoorsQty;
+  }
+
+  public getSeatsQty() {
+    return this.seatsQty;
+  }
+
+  public sewSeatsQty(newSeatsQty: number) {
+    this.doorsQty = newSeatsQty;
   }
 }

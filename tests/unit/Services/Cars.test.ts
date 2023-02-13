@@ -58,6 +58,7 @@ describe('Ao tentar', function () {
           buyValue: 39,
           doorsQty: 2,
           seatsQty: 5,
+          status: false,
         },
       ];
 

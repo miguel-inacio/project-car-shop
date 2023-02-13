@@ -6,7 +6,7 @@ export default class CarController {
   constructor(private carService: CarService) {}
 
   public register = async (req: Request, res: Response, next: NextFunction) => {
-    const car: ICar = {
+    const car: Omit <ICar, 'id'> = {
       model: req.body.model,
       year: req.body.year,
       color: req.body.color,

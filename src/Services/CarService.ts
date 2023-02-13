@@ -16,4 +16,10 @@ export default class CarService {
     const newCar = await this.model.create(car);
     return this.createCarDomain(newCar);
   }
+
+  public async findAll() {
+    const allCars = await this.model.findAll();
+    const result = allCars.map((car) => this.createCarDomain(car));
+    return result;
+  }
 }

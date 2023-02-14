@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
 import MotorcycleService from '../../../src/Services/MotorcycleService';
-// import CustomError from '../../../src/Error/CustomError';
+import CustomError from '../../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
   describe('cadastrar uma moto', function () {
@@ -79,6 +79,20 @@ describe('Ao tentar', function () {
       const result = await service.findOne('6348513f34c397abcad040b2');
   
       expect(result).to.deep.equal(allMotorcyclesMock[0]);
+
+      sinon.restore();
+    });
+
+    it('deve retornar com NOT FOUND quando passado id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves({});
+  
+      try {
+        const service = new MotorcycleService();
+        await service.findOne('6348513f34c397abcad040b2');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
 
       sinon.restore();
     });

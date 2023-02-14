@@ -27,11 +27,11 @@ export default class CarService {
   public async findOne(id: string) : Promise<Car | null | unknown> {
     const isIdValid = this.model.validateMongoId(id);
     if (!isIdValid) {
-      throw new CustomError('Invalid mongo id', 422);
+      throw new CustomError('Invalid mongo id', 422, 'car validation');
     } 
     const carById = await this.model.findOne(id);
     if (carById === null || !carById.id) {
-      throw new CustomError('Car not found', 404);
+      throw new CustomError('Car not found', 404, 'car validation');
     } else {
       const result = this.createCarDomain(carById);
       return result;

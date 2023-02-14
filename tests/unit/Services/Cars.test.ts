@@ -71,13 +71,13 @@ describe('Ao tentar', function () {
       sinon.restore();
     });
 
-    it('deve retornar NOT FOUND quando passado id inexistente', async function () {
+    it('deve retornar com sucesso quando passado id existente', async function () {
       sinon.stub(Model, 'findOne').resolves(allCarsMock[0]);
   
       const service = new CarService();
       const result = await service.findOne('634852326b35b59438fbea2f');
   
-      expect(result).to.deep.equal(allCarsMock);
+      expect(result).to.deep.equal(allCarsMock[0]);
 
       sinon.restore();
     });

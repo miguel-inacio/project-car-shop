@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
 import CarService from '../../../src/Services/CarService';
+import CustomError from '../../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
   describe('cadastrar um carro', function () {
@@ -87,12 +88,23 @@ describe('Ao tentar', function () {
   
       try {
         const service = new CarService();
-        await service.findOne('634852326b35b59438ftest404');
+        await service.findOne('634852326b35b59438fbea2f');
       } catch (error) {
         expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
       sinon.restore();
+    });
+
+    it('deve retornar com INVALID MONGO ID quando passado id inválido', async function () {
+      try {
+        const service = new CarService();
+        await service.findOne('INVALID_MONGO_ID');
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal('Invalid mongo id');
+        expect((error as CustomError).getStatus()).to.be.equal(422);
+      }
     });
   });
 });

@@ -32,12 +32,12 @@ abstract class AbstractODM<T> {
   }
 
   public async update(id: string, obj: UpdateQuery<T>) : Promise<UpdateWriteOpResult> {
-    const result = await this.model.updateOne({ id }, { $set: { ...obj } });
+    const result = await this.model.updateOne({ _id: id }, { $set: { ...obj } });
     return result;
   }
 
   public async delete(id: string) : Promise<void> {
-    await this.model.deleteOne({ id });
+    await this.model.deleteOne({ _id: id });
   }
 }
 

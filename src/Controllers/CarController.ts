@@ -3,42 +3,52 @@ import ICar from '../Interfaces/ICar';
 import CarService from '../Services/CarService';
 
 export default class CarController {
-  constructor(private carService: CarService) {}
+  private req: Request;
+  private res: Response;
+  private next: NextFunction;
+  private carService: CarService;
 
-  public register = async (req: Request, res: Response, next: NextFunction) => {
+  constructor(req: Request, res: Response, next: NextFunction) {
+    this.req = req;
+    this.res = res;
+    this.next = next;
+    this.carService = new CarService();
+  }
+
+  public register = async () => {
     const car: Omit <ICar, 'id'> = {
-      model: req.body.model,
-      year: req.body.year,
-      color: req.body.color,
-      status: req.body?.status,
-      buyValue: req.body.buyValue,
-      doorsQty: req.body.doorsQty,
-      seatsQty: req.body.seatsQty,
+      model: this.req.body.model,
+      year: this.req.body.year,
+      color: this.req.body.color,
+      status: this.req.body?.status,
+      buyValue: this.req.body.buyValue,
+      doorsQty: this.req.body.doorsQty,
+      seatsQty: this.req.body.seatsQty,
     };
     try {
       const result = await this.carService.register(car);
-      return res.status(201).json(result);
+      return this.res.status(201).json(result);
     } catch (error) {
-      next(error);
+      this.next(error);
     }
   };
 
-  public findAll = async (req: Request, res: Response, next: NextFunction) => {
+  public findAll = async () => {
     try {
       const allCars = await this.carService.findAll();
-      return res.status(200).json(allCars);
+      return this.res.status(200).json(allCars);
     } catch (error) {
-      next(error);
+      this.next(error);
     }
   };
 
-  public findOne = async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+  public findOne = async () => {
+    const { id } = this.req.params;
     try {
       const car = await this.carService.findOne(id);
-      return res.status(200).json(car);
+      return this.res.status(200).json(car);
     } catch (error) {
-      next(error);
+      this.next(error);
     }
   };
 }

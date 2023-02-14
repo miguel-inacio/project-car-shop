@@ -5,6 +5,7 @@ import CarService from '../../../src/Services/CarService';
 import CustomError from '../../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
+  const CAR_NOT_FOUND = 'Car not found';
   describe('cadastrar um carro', function () {
     it('deve retornar informações do carro cadastrado', async function () {
       const carResultMock = {
@@ -90,7 +91,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.findOne('634852326b35b59438fbea2f');
       } catch (error) {
-        expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -135,7 +136,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.update('634852326b35b59438fbea2f', carUpdateRequestMock);
       } catch (error) {
-        expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -163,16 +164,18 @@ describe('Ao tentar', function () {
     });
   });
   describe('deletar um carro', function () {
-    it('com sucesso, deve retornar status 204 sem body', async function () {
-      sinon.stub(Model, 'deleteOne').resolves({ acknowledged: true, deletedCount: 1 });
+    it('com sucesso, deve retornar status 404', async function () {
+      sinon.stub(Model, 'deleteOne').resolves();
+      sinon.stub(Model, 'findOne').resolves({});
 
-      const service = new CarService();
-      const result = await service.delete('634852326b35b59438fbea2f');
-
-      expect(result).to.have.property('acknowledged');
-      expect(result.acknowledged).to.be.equal(true);
-      expect(result).to.have.property('deletedCount');
-      expect(result.deletedCount).to.be.equal(1);
+      try {
+        const service = new CarService();
+        await service.delete('634852326b35b59438fbea2f');
+        await service.findOne('634852326b35b59438fbea2f');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
     });
   });
 });

@@ -23,4 +23,10 @@ export default class MotorcycleService {
     const result = allMotorcycles.map((motorcycle) => this.createMotorcycleDomain(motorcycle));
     return result;
   }
+
+  public async findOne(id: string) : Promise<Motorcycle | null | unknown> {
+    const motorcycleById = await this.model.findOne(id);
+    const result = this.createMotorcycleDomain(motorcycleById);
+    return result;
+  }
 }

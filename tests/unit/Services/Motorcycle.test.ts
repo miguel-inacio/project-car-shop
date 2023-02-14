@@ -140,5 +140,19 @@ describe('Ao tentar', function () {
         { id: '634852326b35b59438fbea2f', ...motorcycleUpdateRequestMock },
       );
     });
+
+    it('deve retornar NOT FOUND se receber id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves({});
+  
+      try {
+        const service = new MotorcycleService();
+        await service.update('634852326b35b59438fbea2f', motorcycleUpdateRequestMock);
+      } catch (error) {
+        expect((error as Error).message).to.be.equal('Motorcycle not found');
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
+
+      sinon.restore();
+    });
   });
 });

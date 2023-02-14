@@ -5,6 +5,7 @@ import MotorcycleService from '../../../src/Services/MotorcycleService';
 import CustomError from '../../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
+  const MOTORCYCLE_NOT_FOUND = 'Motorcycle not found';
   describe('cadastrar uma moto', function () {
     it('deve retornar informações da moto cadastrada', async function () {
       const bikeResultMock = {
@@ -90,7 +91,7 @@ describe('Ao tentar', function () {
         const service = new MotorcycleService();
         await service.findOne('6348513f34c397abcad040b2');
       } catch (error) {
-        expect((error as Error).message).to.be.equal('Motorcycle not found');
+        expect((error as Error).message).to.be.equal(MOTORCYCLE_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -165,6 +166,23 @@ describe('Ao tentar', function () {
         expect((error as CustomError).message).to.be.equal('Invalid mongo id');
         expect((error as CustomError).getStatus()).to.be.equal(422);
       }
+    });
+  });
+  describe('deletar uma moto', function () {
+    it('com sucesso, deve retornar status 404', async function () {
+      sinon.stub(Model, 'deleteOne').resolves();
+      sinon.stub(Model, 'findOne').resolves({});
+
+      try {
+        const service = new MotorcycleService();
+        await service.delete('634852326b35b59438fbea2f');
+        await service.findOne('634852326b35b59438fbea2f');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal(MOTORCYCLE_NOT_FOUND);
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
+
+      sinon.restore();
     });
   });
 });

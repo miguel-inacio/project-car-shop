@@ -9,6 +9,11 @@ motorcycleRoutes.post(
 );
 
 motorcycleRoutes.get(
+  '/:id',
+  (req, res, next) => new MotorcycleController(req, res, next).findOne(),
+);
+
+motorcycleRoutes.get(
   '/',
   (req, res, next) => new MotorcycleController(req, res, next).findAll(),
 );

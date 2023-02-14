@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import CustomError from '../Error/CustomError';
 
-export default class CarValidation {
+export default class VehicleValidation {
   public static notFound = (
     error: CustomError, 
     _req: Request, 

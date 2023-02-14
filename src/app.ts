@@ -1,6 +1,6 @@
 import express from 'express';
 import carRoutes from './Routes/CarRoutes';
-import CarValidation from './Middlewares/CarValidation';
+import VehicleValidation from './Middlewares/VehicleValidation';
 import motorcycleRoutes from './Routes/MotorcycleRoutes';
 
 const app = express();
@@ -10,6 +10,6 @@ app.use('/cars', carRoutes);
 
 app.use('/motorcycles', motorcycleRoutes);
 
-app.use(CarValidation.notFound);
+app.use(VehicleValidation.notFound);
 
 export default app;

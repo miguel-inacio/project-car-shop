@@ -71,4 +71,10 @@ export default class CarController {
       this.next(error);
     }
   };
+
+  public delete = async () => {
+    const { id } = this.req.params;
+    await this.carService.delete(id);
+    return this.res.status(204);
+  };
 }

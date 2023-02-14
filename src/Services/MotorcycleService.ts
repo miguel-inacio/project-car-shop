@@ -1,10 +1,11 @@
 import Motorcycle from '../Domains/Motorcycle';
+import CustomError from '../Error/CustomError';
 import IMotorcyle from '../Interfaces/IMotorcycle';
 import MotorcycleODM from '../Models/MotorcycleODM';
 
 export default class MotorcycleService {
   public model = new MotorcycleODM();
-  public validation = 'car validation';
+  public validation = 'motorcycle validation';
 
   public createMotorcycleDomain(motorcycle: Omit <IMotorcyle, 'id'> | null): Motorcycle | null {
     if (motorcycle) {
@@ -26,7 +27,11 @@ export default class MotorcycleService {
 
   public async findOne(id: string) : Promise<Motorcycle | null | unknown> {
     const motorcycleById = await this.model.findOne(id);
-    const result = this.createMotorcycleDomain(motorcycleById);
-    return result;
+    if (motorcycleById === null || !motorcycleById.id) {
+      throw new CustomError('Motorcycle not found', 404, this.validation);
+    } else {
+      const result = this.createMotorcycleDomain(motorcycleById);
+      return result;
+    }
   }
 }

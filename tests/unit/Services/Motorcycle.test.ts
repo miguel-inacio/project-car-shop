@@ -71,5 +71,16 @@ describe('Ao tentar', function () {
 
       sinon.restore();
     });
+
+    it('deve retornar com sucesso quando passado id existente', async function () {
+      sinon.stub(Model, 'findOne').resolves(allMotorcyclesMock[0]);
+  
+      const service = new MotorcycleService();
+      const result = await service.findOne('6348513f34c397abcad040b2');
+  
+      expect(result).to.deep.equal(allMotorcyclesMock[0]);
+
+      sinon.restore();
+    });
   });
 });

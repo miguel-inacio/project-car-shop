@@ -8,7 +8,7 @@ export default class CarValidation {
     res: Response, 
     next: NextFunction,
   ) => {
-    if (error.getType() === 'car validation') {
+    if (error.getType() === 'car validation' || error.getType() === 'motorcycle validation') {
       return res.status(error.getStatus()).send({ message: error.message }); 
     }
     next(error);

@@ -139,6 +139,8 @@ describe('Ao tentar', function () {
       expect(result).to.deep.equal(
         { id: '634852326b35b59438fbea2f', ...motorcycleUpdateRequestMock },
       );
+
+      sinon.restore();
     });
 
     it('deve retornar NOT FOUND se receber id inexistente', async function () {

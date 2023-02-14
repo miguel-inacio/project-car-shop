@@ -22,8 +22,8 @@ export default class MotorcycleController {
       color: this.req.body.color,
       status: this.req.body?.status,
       buyValue: this.req.body.buyValue,
-      category: this.req.body.doorsQty,
-      engineCapacity: this.req.body.seatsQty,
+      category: this.req.body.category,
+      engineCapacity: this.req.body.engineCapacity,
     };
     try {
       const result = await this.motorcycleService.register(motorcycle);

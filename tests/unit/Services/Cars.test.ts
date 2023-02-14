@@ -162,4 +162,17 @@ describe('Ao tentar', function () {
       expect(result).to.deep.equal({ id: '634852326b35b59438fbea2f', ...carUpdateRequestMock });
     });
   });
+  describe('deletar um carro', function () {
+    it('com sucesso, deve retornar status 204 sem body', async function () {
+      sinon.stub(Model, 'deleteOne').resolves({ acknowledged: true, deletedCount: 1 });
+
+      const service = new CarService();
+      const result = await service.delete('634852326b35b59438fbea2f');
+
+      expect(result).to.have.property('acknowledged');
+      expect(result.acknowledged).to.be.equal(true);
+      expect(result).to.have.property('deletedCount');
+      expect(result.deletedCount).to.be.equal(1);
+    });
+  });
 });

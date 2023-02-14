@@ -41,4 +41,14 @@ export default class MotorcycleController {
       this.next(error);
     }
   };
+
+  public findOne = async () => {
+    const { id } = this.req.params;
+    try {
+      const motorcycle = await this.motorcycleService.findOne(id);
+      return this.res.status(200).json(motorcycle);
+    } catch (error) {
+      this.next(error);
+    }
+  };
 }

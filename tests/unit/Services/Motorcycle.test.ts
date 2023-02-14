@@ -154,5 +154,15 @@ describe('Ao tentar', function () {
 
       sinon.restore();
     });
+
+    it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
+      try {
+        const service = new MotorcycleService();
+        await service.update('INVALID_MONGO_ID', motorcycleUpdateRequestMock);
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal('Invalid mongo id');
+        expect((error as CustomError).getStatus()).to.be.equal(422);
+      }
+    });
   });
 });

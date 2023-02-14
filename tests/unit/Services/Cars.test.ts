@@ -75,9 +75,7 @@ describe('Ao tentar', function () {
       sinon.stub(Model, 'findOne').resolves(allCarsMock[0]);
   
       const service = new CarService();
-      const result = await service.findOne({
-        id: '634852326b35b59438fbea2f',
-      });
+      const result = await service.findOne('634852326b35b59438fbea2f');
   
       expect(result).to.deep.equal(allCarsMock);
 

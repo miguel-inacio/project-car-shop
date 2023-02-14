@@ -108,7 +108,18 @@ describe('Ao tentar', function () {
     });
   });
   describe('atualizar informações de um carro', function () {
-    const carUpdateMock = {
+    const carMock = {
+      id: '634852326b35b59438fbea2f',
+      model: 'Uno',
+      year: 2077,
+      color: 'Bliu',
+      status: false,
+      buyValue: 50.990,
+      doorsQty: 2,
+      seatsQty: 5,
+    };
+
+    const carUpdateRequestMock = {
       model: 'Mille',
       year: 2045,
       color: 'Blim',
@@ -122,7 +133,7 @@ describe('Ao tentar', function () {
   
       try {
         const service = new CarService();
-        await service.update('634852326b35b59438fbea2f', carUpdateMock);
+        await service.update('634852326b35b59438fbea2f', carUpdateRequestMock);
       } catch (error) {
         expect((error as Error).message).to.be.equal('Car not found');
         expect((error as CustomError).getStatus()).to.be.equal(404);
@@ -134,11 +145,21 @@ describe('Ao tentar', function () {
     it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
       try {
         const service = new CarService();
-        await service.update('INVALID_MONGO_ID', carUpdateMock);
+        await service.update('INVALID_MONGO_ID', carUpdateRequestMock);
       } catch (error) {
         expect((error as CustomError).message).to.be.equal('Invalid mongo id');
         expect((error as CustomError).getStatus()).to.be.equal(422);
       }
+    });
+
+    it('deve retornar com sucesso se receber id válido', async function () {
+      sinon.stub(Model, 'findOne').resolves(carMock);
+      sinon.stub(Model, 'updateOne').resolves();
+
+      const service = new CarService();
+      const result = await service.update('634852326b35b59438fbea2f', carUpdateRequestMock);
+
+      expect(result).to.deep.equal({ id: '634852326b35b59438fbea2f', ...carUpdateRequestMock });
     });
   });
 });

@@ -1,13 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
+import CustomError from '../Error/CustomError';
 
 export default class CarValidation {
   public static notFound = (
-    error: Error, 
+    error: CustomError, 
     _req: Request, 
     res: Response, 
     next: NextFunction,
   ) => {
-    if (error.message === 'Car not found') { return res.status(404).json(error.message); }
+    if (error.getType() === 'car validation') {
+      return res.status(error.getStatus()).send({ message: error.message }); 
+    }
     next(error);
   };
 }

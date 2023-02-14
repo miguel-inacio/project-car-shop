@@ -110,7 +110,7 @@ describe('Ao tentar', function () {
   describe('atualizar informações de uma moto', function () {
     const motoMock = {
       id: '6348513f34c397abcad040b2',
-      model: 'Honda Cb 600f Hornet',
+      model: 'Honda Cb 600f V6',
       year: 2005,
       color: 'Yellow',
       status: true,

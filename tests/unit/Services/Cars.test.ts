@@ -161,6 +161,8 @@ describe('Ao tentar', function () {
       const result = await service.update('634852326b35b59438fbea2f', carUpdateRequestMock);
 
       expect(result).to.deep.equal({ id: '634852326b35b59438fbea2f', ...carUpdateRequestMock });
+
+      sinon.restore();
     });
   });
   describe('deletar um carro', function () {

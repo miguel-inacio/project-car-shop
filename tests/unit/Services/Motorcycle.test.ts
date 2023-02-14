@@ -42,7 +42,7 @@ describe('Ao tentar', function () {
     const allMotorcyclesMock = [
       {
         id: '6348513f34c397abcad040b2',
-        model: 'Honda Cb 600f Hornet',
+        model: 'Honda Cb 600f Spirit',
         year: 2005,
         color: 'Yellow',
         status: true,
@@ -52,7 +52,7 @@ describe('Ao tentar', function () {
       },
       {
         id: '6348513f34c397abcad040b3',
-        model: 'Honda Cb 600f Hornet',
+        model: 'Honda Cb 600f Drifter',
         year: 2005,
         color: 'Yellow',
         status: true,

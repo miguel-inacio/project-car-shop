@@ -1,12 +1,21 @@
 import { Router } from 'express';
-import carController from '../Factories/CarFactory';
+import CarController from '../Controllers/CarController';
 
 const carRoutes = Router();
 
-carRoutes.post('/', carController.carController.register);
+carRoutes.post(
+  '/',
+  (req, res, next) => new CarController(req, res, next).register(),
+);
 
-carRoutes.get('/:id', carController.carController.findOne);
+carRoutes.get(
+  '/:id',
+  (req, res, next) => new CarController(req, res, next).findOne(),
+);
 
-carRoutes.get('/', carController.carController.findAll);
+carRoutes.get(
+  '/',
+  (req, res, next) => new CarController(req, res, next).findAll(),
+);
 
 export default carRoutes;

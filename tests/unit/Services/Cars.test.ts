@@ -6,6 +6,7 @@ import CustomError from '../../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
   const CAR_NOT_FOUND = 'Car not found';
+  const INVALID_MONGO_ID = 'Invalid mongo id';
   describe('cadastrar um carro', function () {
     it('deve retornar informações do carro cadastrado', async function () {
       const carResultMock = {
@@ -103,7 +104,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.findOne('INVALID_MONGO_ID');
       } catch (error) {
-        expect((error as CustomError).message).to.be.equal('Invalid mongo id');
+        expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
         expect((error as CustomError).getStatus()).to.be.equal(422);
       }
     });
@@ -148,7 +149,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.update('INVALID_MONGO_ID', carUpdateRequestMock);
       } catch (error) {
-        expect((error as CustomError).message).to.be.equal('Invalid mongo id');
+        expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
         expect((error as CustomError).getStatus()).to.be.equal(422);
       }
     });
@@ -181,6 +182,7 @@ describe('Ao tentar', function () {
 
       sinon.restore();
     });
+    
     it('deve retornar NOT FOUND se receber id inexistente', async function () {
       sinon.stub(Model, 'findOne').resolves({});
   
@@ -193,6 +195,16 @@ describe('Ao tentar', function () {
       }
 
       sinon.restore();
+    });
+
+    it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
+      try {
+        const service = new CarService();
+        await service.delete('INVALID_MONGO_ID');
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
+        expect((error as CustomError).getStatus()).to.be.equal(422);
+      }
     });
   });
 });

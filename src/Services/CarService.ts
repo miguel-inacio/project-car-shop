@@ -5,6 +5,7 @@ import CarODM from '../Models/CarODM';
 
 export default class CarService {
   public model = new CarODM();
+  public validation = 'car validation';
 
   public createCarDomain(car: Omit <ICar, 'id'> | null): Car | null {
     if (car) {
@@ -27,14 +28,19 @@ export default class CarService {
   public async findOne(id: string) : Promise<Car | null | unknown> {
     const isIdValid = this.model.validateMongoId(id);
     if (!isIdValid) {
-      throw new CustomError('Invalid mongo id', 422, 'car validation');
+      throw new CustomError('Invalid mongo id', 422, this.validation);
     } 
     const carById = await this.model.findOne(id);
     if (carById === null || !carById.id) {
-      throw new CustomError('Car not found', 404, 'car validation');
+      throw new CustomError('Car not found', 404, this.validation);
     } else {
       const result = this.createCarDomain(carById);
       return result;
     }
+  }
+
+  public async update(id: string /* newData: Car */) : Promise<void /* Car | null */> {
+    const carExists = await this.findOne(id);
+    if (!carExists) throw new CustomError('Car not found', 404, this.validation);
   }
 }

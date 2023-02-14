@@ -25,6 +25,12 @@ export default class MotorcycleService {
     return result;
   }
 
+  public validateMongoId(id: string) : boolean {
+    const isIdValid = this.model.validateMongoId(id);
+    if (!isIdValid) throw new CustomError('Invalid mongo id', 422, this.validation);
+    else return isIdValid;
+  }
+
   public async findOne(id: string) : Promise<Motorcycle | null | unknown> {
     const motorcycleById = await this.model.findOne(id);
     if (motorcycleById === null || !motorcycleById.id) {

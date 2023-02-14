@@ -90,7 +90,7 @@ describe('Ao tentar', function () {
         const service = new MotorcycleService();
         await service.findOne('6348513f34c397abcad040b2');
       } catch (error) {
-        expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as Error).message).to.be.equal('Motorcycle not found');
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 

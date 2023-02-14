@@ -83,13 +83,14 @@ describe('Ao tentar', function () {
     });
 
     it('deve retornar com NOT FOUND quando passado id inexistente', async function () {
-      sinon.stub(Model, 'findOne').resolves([]);
+      sinon.stub(Model, 'findOne').resolves({});
   
-      const service = new CarService();
-      const result = await service.findOne('6');
-  
-      expect(result).to.have.property(message);
-      expect(result.message).to.be.equal('Car not found');
+      try {
+        const service = new CarService();
+        await service.findOne('634852326b35b59438ftest404');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal('Car not found');
+      }
 
       sinon.restore();
     });

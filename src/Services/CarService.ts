@@ -52,4 +52,8 @@ export default class CarService {
       return this.createCarDomain({ id, ...newData });
     }
   }
+
+  public async delete(id: string) : Promise<void> {
+    await this.model.delete(id);
+  }
 }

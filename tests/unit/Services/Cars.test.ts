@@ -38,34 +38,46 @@ describe('Ao tentar', function () {
     });
   });
   describe('acessar carros', function () {
+    const allCarsMock = [
+      {
+        id: '634852326b35b59438fbea2f',
+        model: 'Marea',
+        year: 2002,
+        color: 'Black',
+        status: true,
+        buyValue: 15.99,
+        doorsQty: 4,
+        seatsQty: 5,
+      },
+      {
+        id: '634852326b35b59438fbea31',
+        model: 'Tempra',
+        year: 1995,
+        color: 'Black',
+        buyValue: 39,
+        doorsQty: 2,
+        seatsQty: 5,
+        status: false,
+      },
+    ];
     it('deve retornar todos os carros com sucesso', async function () {
-      const allCarsMock = [
-        {
-          id: '634852326b35b59438fbea2f',
-          model: 'Marea',
-          year: 2002,
-          color: 'Black',
-          status: true,
-          buyValue: 15.99,
-          doorsQty: 4,
-          seatsQty: 5,
-        },
-        {
-          id: '634852326b35b59438fbea31',
-          model: 'Tempra',
-          year: 1995,
-          color: 'Black',
-          buyValue: 39,
-          doorsQty: 2,
-          seatsQty: 5,
-          status: false,
-        },
-      ];
-
       sinon.stub(Model, 'find').resolves(allCarsMock);
   
       const service = new CarService();
       const result = await service.findAll();
+  
+      expect(result).to.deep.equal(allCarsMock);
+
+      sinon.restore();
+    });
+
+    it('deve retornar NOT FOUND quando passado id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves(allCarsMock[0]);
+  
+      const service = new CarService();
+      const result = await service.findOne({
+        id: '634852326b35b59438fbea2f',
+      });
   
       expect(result).to.deep.equal(allCarsMock);
 

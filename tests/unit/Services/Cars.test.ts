@@ -108,18 +108,37 @@ describe('Ao tentar', function () {
     });
   });
   describe('atualizar informações de um carro', function () {
+    const carUpdateMock = {
+      model: 'Mille',
+      year: 2045,
+      color: 'Blim',
+      status: true,
+      buyValue: 77.990,
+      doorsQty: 23,
+      seatsQty: 55,
+    };
     it('deve retornar NOT FOUND se receber id inexistente', async function () {
       sinon.stub(Model, 'findOne').resolves({});
   
       try {
         const service = new CarService();
-        await service.update('634852326b35b59438fbea2f');
+        await service.update('634852326b35b59438fbea2f', carUpdateMock);
       } catch (error) {
         expect((error as Error).message).to.be.equal('Car not found');
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
       sinon.restore();
+    });
+
+    it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
+      try {
+        const service = new CarService();
+        await service.update('INVALID_MONGO_ID', carUpdateMock);
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal('Invalid mongo id');
+        expect((error as CustomError).getStatus()).to.be.equal(422);
+      }
     });
   });
 });

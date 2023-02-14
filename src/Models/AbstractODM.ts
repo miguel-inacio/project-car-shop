@@ -18,8 +18,8 @@ abstract class AbstractODM<T> {
   }
 
   public async findAll() : Promise<T[]> {
-    const allCars = await this.model.find();
-    return allCars;
+    const allVehicles = await this.model.find();
+    return allVehicles;
   }
 
   public validateMongoId(id: string) : boolean {

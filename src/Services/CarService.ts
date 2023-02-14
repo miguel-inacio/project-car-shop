@@ -12,20 +12,23 @@ export default class CarService {
     return null;
   }
 
-  public async register(car: Omit <ICar, 'id'>) {
+  public async register(car: Omit <ICar, 'id'>) : Promise<Car | null> {
     const newCar = await this.model.create(car);
     return this.createCarDomain(newCar);
   }
 
-  public async findAll() {
+  public async findAll() : Promise<(Car | null)[]> {
     const allCars = await this.model.findAll();
     const result = allCars.map((car) => this.createCarDomain(car));
     return result;
   }
 
-  public async findOne(id: string) {
+  public async findOne(id: string) : Promise<Car | null> {
     const carById = await this.model.findOne(id);
-    const result = this.createCarDomain(carById);
-    return result;
+    if (carById === null || !carById.id) throw new Error('Car not found');
+    else {
+      const result = this.createCarDomain(carById);
+      return result;
+    }
   }
 }

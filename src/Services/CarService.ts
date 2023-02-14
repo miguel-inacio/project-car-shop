@@ -54,6 +54,8 @@ export default class CarService {
   }
 
   public async delete(id: string) : Promise<void> {
-    await this.model.delete(id);
+    const carExists = await this.findOne(id);
+    const validId = this.validateMongoId(id);
+    if (carExists && validId) await this.model.delete(id);
   }
 }

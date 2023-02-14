@@ -32,12 +32,15 @@ export default class MotorcycleService {
   }
 
   public async findOne(id: string) : Promise<Motorcycle | null | unknown> {
-    const motorcycleById = await this.model.findOne(id);
-    if (motorcycleById === null || !motorcycleById.id) {
-      throw new CustomError('Motorcycle not found', 404, this.validation);
-    } else {
-      const result = this.createMotorcycleDomain(motorcycleById);
-      return result;
+    const validId = this.validateMongoId(id);
+    if (validId) {
+      const motorcycleById = await this.model.findOne(id);
+      if (motorcycleById === null || !motorcycleById.id) {
+        throw new CustomError('Motorcycle not found', 404, this.validation);
+      } else {
+        const result = this.createMotorcycleDomain(motorcycleById);
+        return result;
+      }
     }
   }
 }

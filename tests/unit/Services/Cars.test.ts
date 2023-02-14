@@ -166,8 +166,8 @@ describe('Ao tentar', function () {
       sinon.restore();
     });
   });
-  describe('deletar um carro', function () {
-    it('com sucesso, deve retornar status 404', async function () {
+  describe('deletar um carro com sucesso', function () {
+    it('deve retornar status 404', async function () {
       sinon.stub(Model, 'deleteOne').resolves();
       sinon.stub(Model, 'findOne').resolves({});
 
@@ -182,7 +182,9 @@ describe('Ao tentar', function () {
 
       sinon.restore();
     });
-    
+  });
+
+  describe('deletar um carro sem sucesso', function () {
     it('deve retornar NOT FOUND se receber id inexistente', async function () {
       sinon.stub(Model, 'findOne').resolves({});
   

@@ -25,22 +25,31 @@ export default class CarService {
     return result;
   }
 
-  public async findOne(id: string) : Promise<Car | null | unknown> {
+  public validateMongoId(id: string) : boolean {
     const isIdValid = this.model.validateMongoId(id);
-    if (!isIdValid) {
-      throw new CustomError('Invalid mongo id', 422, this.validation);
-    } 
-    const carById = await this.model.findOne(id);
-    if (carById === null || !carById.id) {
-      throw new CustomError('Car not found', 404, this.validation);
-    } else {
-      const result = this.createCarDomain(carById);
-      return result;
+    if (!isIdValid) throw new CustomError('Invalid mongo id', 422, this.validation);
+    else return isIdValid;
+  }
+
+  public async findOne(id: string) : Promise<Car | null | unknown> {
+    const validId = this.validateMongoId(id);
+    if (validId) {
+      const carById = await this.model.findOne(id);
+      if (carById === null || !carById.id) {
+        throw new CustomError('Car not found', 404, this.validation);
+      } else {
+        const result = this.createCarDomain(carById);
+        return result;
+      }
     }
   }
 
-  public async update(id: string /* newData: Car */) : Promise<void /* Car | null */> {
+  public async update(id: string, newData: ICar) : Promise<Car | unknown> {
+    const validId = this.validateMongoId(id);
     const carExists = await this.findOne(id);
-    if (!carExists) throw new CustomError('Car not found', 404, this.validation);
+    if (validId && carExists) {
+      await this.model.update(id, newData);
+      return this.createCarDomain({ id, ...newData });
+    }
   }
 }

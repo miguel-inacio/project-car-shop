@@ -1,4 +1,4 @@
-export default interface ICar {
+export default interface IVehicle {
   id?: string | undefined,
   model: string,
   year: number,

@@ -1,10 +1,6 @@
-export default interface ICar {
-  id?: string | undefined,
-  model: string,
-  year: number,
-  color: string,
-  status?: boolean,
-  buyValue: number,
+import IVehicle from './IVehicle';
+
+export default interface IMotorcyle extends IVehicle {
   category: string,
   engineCapacity: number,
 }

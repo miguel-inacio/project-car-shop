@@ -107,4 +107,38 @@ describe('Ao tentar', function () {
       }
     });
   });
+  describe('atualizar informações de uma moto', function () {
+    const motoMock = {
+      id: '6348513f34c397abcad040b2',
+      model: 'Honda Cb 600f Hornet',
+      year: 2005,
+      color: 'Yellow',
+      status: true,
+      buyValue: 30.000,
+      category: 'Street',
+      engineCapacity: 600,
+    };
+
+    const motorcycleUpdateRequestMock = {
+      model: 'Honda Cb 600f CW',
+      year: 2023,
+      color: 'Black',
+      status: false,
+      buyValue: 60.000,
+      category: 'Motocross',
+      engineCapacity: 100,
+    };
+
+    it('deve retornar com sucesso se receber id válido', async function () {
+      sinon.stub(Model, 'findOne').resolves(motoMock);
+      sinon.stub(Model, 'updateOne').resolves();
+
+      const service = new MotorcycleService();
+      const result = await service.update('634852326b35b59438fbea2f', motorcycleUpdateRequestMock);
+
+      expect(result).to.deep.equal(
+        { id: '634852326b35b59438fbea2f', ...motorcycleUpdateRequestMock },
+      );
+    });
+  });
 });

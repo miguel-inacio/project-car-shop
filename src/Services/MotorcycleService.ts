@@ -45,7 +45,10 @@ export default class MotorcycleService {
   }
 
   public async update(id: string, newData: IMotorcyle) : Promise<Motorcycle | unknown> {
-    await this.model.update(id, newData);
-    return this.createMotorcycleDomain({ id, ...newData });
+    const motorcycleExists = await this.findOne(id);
+    if (motorcycleExists) {
+      await this.model.update(id, newData);
+      return this.createMotorcycleDomain({ id, ...newData });
+    }
   }
 }

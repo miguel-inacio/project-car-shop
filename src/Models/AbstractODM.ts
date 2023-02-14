@@ -1,4 +1,5 @@
-import { isValidObjectId, model, Model, models, Schema } from 'mongoose';
+import { isValidObjectId, model, Model, models,
+  Schema, UpdateQuery, UpdateWriteOpResult } from 'mongoose';
 
 abstract class AbstractODM<T> {
   protected model: Model<T>;
@@ -27,6 +28,11 @@ abstract class AbstractODM<T> {
 
   public async findOne(id: string) : Promise<T | null > {
     const result = await this.model.findById(id);
+    return result;
+  }
+
+  public async update(id: string, obj: UpdateQuery<T>) : Promise<UpdateWriteOpResult> {
+    const result = await this.model.updateOne({ _id: id }, { $set: { ...obj } });
     return result;
   }
 }

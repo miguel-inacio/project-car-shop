@@ -13,8 +13,8 @@ abstract class AbstractODM<T> {
   }
 
   public async create(obj: T): Promise<T> {
-    const newCar = await this.model.create({ ...obj });
-    return newCar;
+    const newVehicle = await this.model.create({ ...obj });
+    return newVehicle;
   }
 
   public async findAll() : Promise<T[]> {

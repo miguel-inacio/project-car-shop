@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
-import MotorcycleService from '../../../src/Services/Motorcycle';
+import MotorcycleService from '../../../src/Services/MotorcycleService';
 
 describe('Ao tentar', function () {
   describe('cadastrar uma moto', function () {

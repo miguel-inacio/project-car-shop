@@ -1,4 +1,4 @@
-import { model, Model, models, Schema } from 'mongoose';
+import { isValidObjectId, model, Model, models, Schema } from 'mongoose';
 
 abstract class AbstractODM<T> {
   protected model: Model<T>;
@@ -19,6 +19,10 @@ abstract class AbstractODM<T> {
   public async findAll() : Promise<T[]> {
     const allCars = await this.model.find();
     return allCars;
+  }
+
+  public validateMongoId(id: string) : boolean {
+    return isValidObjectId(id);
   }
 
   public async findOne(id: string) : Promise<T | null > {

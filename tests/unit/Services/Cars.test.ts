@@ -107,4 +107,19 @@ describe('Ao tentar', function () {
       }
     });
   });
+  describe('atualizar informações de um carro', function () {
+    it('deve retornar NOT FOUND se receber id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves({});
+  
+      try {
+        const service = new CarService();
+        await service.update('634852326b35b59438fbea2f');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal('Car not found');
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
+
+      sinon.restore();
+    });
+  });
 });

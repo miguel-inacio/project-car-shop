@@ -35,6 +35,11 @@ abstract class AbstractODM<T> {
     const result = await this.model.updateOne({ id }, { $set: { ...obj } });
     return result;
   }
+
+  public async delete(id: string) /* : Promise<> */{
+    const result = await this.model.deleteOne({ id });
+    return result;
+  }
 }
 
 export default AbstractODM;

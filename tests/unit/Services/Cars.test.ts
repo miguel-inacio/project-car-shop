@@ -178,6 +178,21 @@ describe('Ao tentar', function () {
         expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
+
+      sinon.restore();
+    });
+    it('deve retornar NOT FOUND se receber id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves({});
+  
+      try {
+        const service = new CarService();
+        await service.delete('634852326b35b59438fbea2f');
+      } catch (error) {
+        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
+
+      sinon.restore();
     });
   });
 });

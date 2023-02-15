@@ -92,7 +92,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.findOne('634852326b35b59438fbea2f');
       } catch (error) {
-        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -137,7 +137,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.update('634852326b35b59438fbea2f', carUpdateRequestMock);
       } catch (error) {
-        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -176,7 +176,7 @@ describe('Ao tentar', function () {
         await service.delete('634852326b35b59438fbea2f');
         await service.findOne('634852326b35b59438fbea2f');
       } catch (error) {
-        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 
@@ -192,7 +192,7 @@ describe('Ao tentar', function () {
         const service = new CarService();
         await service.delete('634852326b35b59438fbea2f');
       } catch (error) {
-        expect((error as Error).message).to.be.equal(CAR_NOT_FOUND);
+        expect((error as CustomError).message).to.be.equal(CAR_NOT_FOUND);
         expect((error as CustomError).getStatus()).to.be.equal(404);
       }
 

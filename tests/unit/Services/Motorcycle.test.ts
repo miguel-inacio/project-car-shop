@@ -131,6 +131,30 @@ describe('Ao tentar', function () {
       category: 'Motocross',
       engineCapacity: 100,
     };
+    
+    it('deve retornar NOT FOUND se receber id inexistente', async function () {
+      sinon.stub(Model, 'findOne').resolves({});
+      
+      try {
+        const service = new MotorcycleService();
+        await service.update('634852326b35b59438fbea2f', motorcycleUpdateRequestMock);
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal(MOTORCYCLE_NOT_FOUND);
+        expect((error as CustomError).getStatus()).to.be.equal(404);
+      }
+      
+      sinon.restore();
+    });
+
+    it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
+      try {
+        const service = new MotorcycleService();
+        await service.update('INVALID_MONGO_ID', motorcycleUpdateRequestMock);
+      } catch (error) {
+        expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
+        expect((error as CustomError).getStatus()).to.be.equal(422);
+      }
+    });
 
     it('deve retornar com sucesso se receber id válido', async function () {
       sinon.stub(Model, 'findOne').resolves(motoMock);
@@ -144,30 +168,6 @@ describe('Ao tentar', function () {
       );
 
       sinon.restore();
-    });
-
-    it('deve retornar NOT FOUND se receber id inexistente', async function () {
-      sinon.stub(Model, 'findOne').resolves({});
-  
-      try {
-        const service = new MotorcycleService();
-        await service.update('634852326b35b59438fbea2f', motorcycleUpdateRequestMock);
-      } catch (error) {
-        expect((error as CustomError).message).to.be.equal(MOTORCYCLE_NOT_FOUND);
-        expect((error as CustomError).getStatus()).to.be.equal(404);
-      }
-
-      sinon.restore();
-    });
-
-    it('deve retornar INVALID MONGO ID se receber id inválido', async function () {
-      try {
-        const service = new MotorcycleService();
-        await service.update('INVALID_MONGO_ID', motorcycleUpdateRequestMock);
-      } catch (error) {
-        expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
-        expect((error as CustomError).getStatus()).to.be.equal(422);
-      }
     });
   });
   describe('deletar uma moto com sucesso', function () {
@@ -211,6 +211,14 @@ describe('Ao tentar', function () {
         expect((error as CustomError).message).to.be.equal(INVALID_MONGO_ID);
         expect((error as CustomError).getStatus()).to.be.equal(422);
       }
+    });
+  });
+  describe('criar uma instância de motorcycle passando null', function () {
+    it('deve retornar null', function () {
+      const service = new MotorcycleService();
+      const newMotorcycle = service.createMotorcycleDomain(null);
+
+      expect(newMotorcycle).to.be.equal(null);
     });
   });
 });

@@ -1,13 +1,122 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# Projeto Car Shop :car: 
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+Projeto desenvolvido no curso de desenvolvimento web da Trybe, no módulo de Back-End.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+### Tecnologias utilizadas 💻:
+- API Rest com CRUD completo em TypeScript
+- ODM Mongoose
+- POO
+- SOLID
+- Docker
+- Arquitetura DDD
+- Mocha, Chai e Sinon, com abordagem TDD e BDD;
+
+### Rodando localmente
+
+Clone o repositório
+
+```bash
+  git clone git@github.com:miguel-inacio/projeto-car-shop.git
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd projeto-car-shop
+```
+
+Suba os containers com o script do docker-compose
+
+```bash
+  docker-compose up-d
+  docker exec -it car_shop
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicialize a aplicação
+
+```bash
+  npm run dev
+```
+
+Rode os testes
+
+```bash
+  npm run test:mocha
+```
+
+:heavy_exclamation_mark: A API ficará disponível no seu navegador no endereço <http://localhost:3001/>
+
+### Documentação da API
+
+<details>
+  <summary> Rotas relacionadas à entidade Car </summary>
+  
+
+#####  POST /car
+- Usada para cadastrar um carro no banco de dados.
+- A requisição retorna o objeto enviado ao banco com seu novo e respectivo id.
+  
+<hr>
+
+
+#####  GET /car
+- Usada para retornar todos os carros dentro do banco de dados.
+  
+<hr>
+  
+
+#####  GET /car/${id}
+- Usada para retornar o carro equivalente ao id passado.
+  
+<hr>
+  
+#####  PUT /car/${id}
+- Usada para atualizar o carro equivalente ao id passado.
+- Retorna o carro atualizado.
+  
+<hr>
+  
+#####  DELETE /car/${id}
+- Usada para excluir do banco de dados o carro equivalente ao id passado.
+- Retorna status de sucesso.
+  
+</details>
+
+<details>
+  <summary> Rotas relacionadas à entidade Motorcycle </summary>
+
+#####  POST /motorcycle
+- Usada para cadastrar uma moto no banco de dados.
+- A requisição retorna o objeto enviado ao banco com seu novo e respectivo id.
+  
+<hr>
+
+
+#####  GET /motorcycle
+- Usada para retornar todas as motos dentro do banco de dados.
+  
+<hr>
+  
+
+#####  GET /motorcycle/${id}
+- Usada para retornar a moto equivalente ao id passado.
+  
+<hr>
+  
+#####  PUT /motorcycle/${id}
+- Usada para atualizar a moto equivalente ao id passado.
+- Retorna a moto atualizada.
+  
+<hr>
+  
+#####  DELETE /motorcycle/${id}
+- Usada para excluir do banco de dados a moto equivalente ao id passado.
+- Retorna status de sucesso.
+
+</details>

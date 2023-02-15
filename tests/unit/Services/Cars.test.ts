@@ -167,18 +167,23 @@ describe('Ao tentar', function () {
     });
   });
   describe('deletar um carro com sucesso', function () {
-    it('deve retornar status 404', async function () {
-      sinon.stub(Model, 'deleteOne').resolves();
-      sinon.stub(Model, 'findOne').resolves({});
+    const carMock = {
+      id: '634852326b35b59438fbea2f',
+      model: 'Uno',
+      year: 2077,
+      color: 'Bliu',
+      status: false,
+      buyValue: 50.990,
+      doorsQty: 2,
+      seatsQty: 5,
+    };
+    it('deve retornar o carro deletado', async function () {
+      sinon.stub(Model, 'findByIdAndDelete').resolves(carMock);
 
-      try {
-        const service = new CarService();
-        await service.delete('634852326b35b59438fbea2f');
-        await service.findOne('634852326b35b59438fbea2f');
-      } catch (error) {
-        expect((error as CustomError).message).to.be.equal(CAR_NOT_FOUND);
-        expect((error as CustomError).getStatus()).to.be.equal(404);
-      }
+      const service = new CarService();
+      const result = await service.delete('634852326b35b59438fbea2f');
+
+      expect(result).to.be.deep.equal(carMock);
 
       sinon.restore();
     });
@@ -186,7 +191,7 @@ describe('Ao tentar', function () {
 
   describe('deletar um carro sem sucesso', function () {
     it('deve retornar NOT FOUND se receber id inexistente', async function () {
-      sinon.stub(Model, 'findOne').resolves({});
+      sinon.stub(Model, 'findByIdAndDelete').resolves(null);
   
       try {
         const service = new CarService();

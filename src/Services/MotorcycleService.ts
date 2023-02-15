@@ -45,8 +45,12 @@ export default class MotorcycleService {
   }
 
   public async update(id: string, newData: IMotorcyle) : Promise<Motorcycle | unknown> {
-    await this.model.update(id, newData);
-    return this.createMotorcycleDomain({ id, ...newData });
+    const validId = this.validateMongoId(id);
+    const motorcycleExists = await this.findOne(id);
+    if (validId && motorcycleExists) {
+      await this.model.update(id, newData);
+      return this.createMotorcycleDomain({ id, ...newData });
+    }
   }
 
   public async delete(id: string) : Promise<void> {

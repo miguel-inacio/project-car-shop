@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Model } from 'mongoose';
-import MotorcycleService from '../../../src/Services/MotorcycleService';
-import CustomError from '../../../src/Error/CustomError';
+import MotorcycleService from '../../src/Services/MotorcycleService';
+import CustomError from '../../src/Error/CustomError';
 
 describe('Ao tentar', function () {
   const MOTORCYCLE_NOT_FOUND = 'Motorcycle not found';

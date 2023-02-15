@@ -209,4 +209,13 @@ describe('Ao tentar', function () {
       }
     });
   });
+
+  describe('criar uma instância de car passando null', function () {
+    it('deve retornar null', function () {
+      const service = new CarService();
+      const newCar = service.createCarDomain(null);
+
+      expect(newCar).to.be.equal(null);
+    });
+  });
 });

@@ -1,20 +1,20 @@
 import Motorcycle from '../Domains/Motorcycle';
 import CustomError from '../Error/CustomError';
-import IMotorcyle from '../Interfaces/IMotorcycle';
+import IMotorcycle from '../Interfaces/IMotorcycle';
 import MotorcycleODM from '../Models/MotorcycleODM';
 
 export default class MotorcycleService {
   public model = new MotorcycleODM();
   public validation = 'motorcycle validation';
 
-  public createMotorcycleDomain(motorcycle: Omit <IMotorcyle, 'id'> | null): Motorcycle | null {
-    if (motorcycle) {
-      return new Motorcycle(motorcycle);
+  public createMotorcycleDomain(motorcycle: Omit <IMotorcycle, 'id'> | null): Motorcycle | null {
+    if (!motorcycle || motorcycle.color === null || motorcycle.color === undefined) {
+      return null;
     }
-    return null;
+    return new Motorcycle(motorcycle);
   }
 
-  public async register(motorcycle: Omit <IMotorcyle, 'id'>) : Promise<Motorcycle | null> {
+  public async register(motorcycle: Omit <IMotorcycle, 'id'>) : Promise<Motorcycle | null> {
     const newMotorcycle = await this.model.create(motorcycle);
     return this.createMotorcycleDomain(newMotorcycle);
   }
@@ -32,30 +32,29 @@ export default class MotorcycleService {
   }
 
   public async findOne(id: string) : Promise<Motorcycle | null | unknown> {
-    const validId = this.validateMongoId(id);
-    if (validId) {
-      const motorcycleById = await this.model.findOne(id);
-      if (motorcycleById === null || !motorcycleById.id) {
-        throw new CustomError('Motorcycle not found', 404, this.validation);
-      } else {
-        const result = this.createMotorcycleDomain(motorcycleById);
-        return result;
-      }
+    this.validateMongoId(id);
+    const motorcycleById = await this.model.findOne(id);
+    if (motorcycleById === null || !motorcycleById.id) {
+      throw new CustomError('Motorcycle not found', 404, this.validation);
     }
+    const result = this.createMotorcycleDomain(motorcycleById);
+    return result;
   }
 
-  public async update(id: string, newData: IMotorcyle) : Promise<Motorcycle | unknown> {
-    const validId = this.validateMongoId(id);
-    const motorcycleExists = await this.findOne(id);
-    if (validId && motorcycleExists) {
-      await this.model.update(id, newData);
-      return this.createMotorcycleDomain({ id, ...newData });
-    }
+  public async update(id: string, newData: IMotorcycle) : Promise<Motorcycle | null | undefined> {
+    this.validateMongoId(id);
+    await this.findOne(id);
+    
+    await this.model.update(id, newData);
+    return this.createMotorcycleDomain({ id, ...newData });
   }
 
-  public async delete(id: string) : Promise<void> {
-    const validId = this.validateMongoId(id);
-    const motorcycleExists = await this.findOne(id);
-    if (motorcycleExists && validId) await this.model.delete(id);
+  public async delete(id: string) : Promise<IMotorcycle | null> {
+    this.validateMongoId(id);
+    const result = await this.model.delete(id);
+    if (!result) {
+      throw new CustomError('Motorcycle not found', 404, this.validation);
+    }
+    return result;
   }
 }

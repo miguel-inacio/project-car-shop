@@ -133,7 +133,7 @@ describe('Ao tentar', function () {
     };
     
     it('deve retornar NOT FOUND se receber id inexistente', async function () {
-      sinon.stub(Model, 'findOne').resolves({});
+      sinon.stub(Model, 'findOne').resolves(null);
       
       try {
         const service = new MotorcycleService();
@@ -171,26 +171,32 @@ describe('Ao tentar', function () {
     });
   });
   describe('deletar uma moto com sucesso', function () {
-    it('com sucesso, deve retornar status 404', async function () {
-      sinon.stub(Model, 'deleteOne').resolves();
-      sinon.stub(Model, 'findOne').resolves({});
+    const motoMock = {
+      id: '6348513f34c397abcad040b2',
+      model: 'Honda Cb 600f V6',
+      year: 2005,
+      color: 'Yellow',
+      status: true,
+      buyValue: 30.000,
+      category: 'Street',
+      engineCapacity: 600,
+    };
 
-      try {
-        const service = new MotorcycleService();
-        await service.delete('634852326b35b59438fbea2f');
-        await service.findOne('634852326b35b59438fbea2f');
-      } catch (error) {
-        expect((error as CustomError).message).to.be.equal(MOTORCYCLE_NOT_FOUND);
-        expect((error as CustomError).getStatus()).to.be.equal(404);
-      }
+    it('com sucesso, deve retornar a moto deletada', async function () {
+      sinon.stub(Model, 'findByIdAndDelete').resolves(motoMock);
+
+      const service = new MotorcycleService();
+      const result = await service.delete('634852326b35b59438fbea2f');
+
+      expect(result).to.be.deep.equal(motoMock);
 
       sinon.restore();
     });
   });
 
   describe('deletar uma moto sem sucesso', function () {
-    it('deve retornar NOT FOUND se receber id inexistente', async function () {
-      sinon.stub(Model, 'findOne').resolves({});
+    it('deve disparar NOT FOUND se receber id inexistente', async function () {
+      sinon.stub(Model, 'findByIdAndDelete').resolves(null);
   
       try {
         const service = new MotorcycleService();

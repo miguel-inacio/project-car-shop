@@ -8,10 +8,10 @@ export default class CarService {
   public validation = 'car validation';
 
   public createCarDomain(car: Omit <ICar, 'id'> | null): Car | null {
-    if (car) {
-      return new Car(car);
+    if (!car || car.color === null || car.color === undefined) {
+      return null;
     }
-    return null;
+    return new Car(car);
   }
 
   public async register(car: Omit <ICar, 'id'>) : Promise<Car | null> {
@@ -32,30 +32,30 @@ export default class CarService {
   }
 
   public async findOne(id: string) : Promise<Car | null | unknown> {
-    const validId = this.validateMongoId(id);
-    if (validId) {
-      const carById = await this.model.findOne(id);
-      if (carById === null || !carById.id) {
-        throw new CustomError('Car not found', 404, this.validation);
-      } else {
-        const result = this.createCarDomain(carById);
-        return result;
-      }
+    this.validateMongoId(id);
+    
+    const carById = await this.model.findOne(id);
+    if (carById === null || !carById.id) {
+      throw new CustomError('Car not found', 404, this.validation);
     }
+    const result = this.createCarDomain(carById);
+    return result;
   }
 
   public async update(id: string, newData: ICar) : Promise<Car | unknown> {
-    const validId = this.validateMongoId(id);
-    const carExists = await this.findOne(id);
-    if (validId && carExists) {
-      await this.model.update(id, newData);
-      return this.createCarDomain({ id, ...newData });
-    }
+    this.validateMongoId(id);
+    await this.findOne(id);
+    
+    await this.model.update(id, newData);
+    return this.createCarDomain({ id, ...newData });
   }
 
-  public async delete(id: string) : Promise<void> {
-    const validId = this.validateMongoId(id);
-    const carExists = await this.findOne(id);
-    if (carExists && validId) await this.model.delete(id);
+  public async delete(id: string) : Promise<ICar | null> {
+    this.validateMongoId(id);
+    const result = await this.model.delete(id);
+    if (!result) {
+      throw new CustomError('Car not found', 404, this.validation);
+    }
+    return result;
   }
 }

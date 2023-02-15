@@ -120,3 +120,22 @@ Rode os testes
 - Retorna status de sucesso.
 
 </details>
+<details>
+  <summary>Exemplos de requisições e respostas em vídeo 📹:</summary>
+  
+  ### Método POST
+  - https://user-images.githubusercontent.com/104790648/219178714-8ef66ff5-d09a-4848-a70a-3cd9d13b2e6e.mp4
+
+  ### Método GET
+  - https://user-images.githubusercontent.com/104790648/219180731-22eadbf2-1c1b-4370-a578-e40c004ac6d3.mp4
+
+  ### Método GET/${id}
+  - https://user-images.githubusercontent.com/104790648/219180856-4308da7c-f41c-4776-9a1d-633c1b9b25f3.mp4
+  
+  ### Método PUT/${id}
+  - https://user-images.githubusercontent.com/104790648/219180305-a8df4778-45cb-418b-971a-c2ce0fa7e846.mp4
+  
+  ### Método DELETE${id}
+  - https://user-images.githubusercontent.com/104790648/219181161-152dc14f-e833-4952-9ef9-332bdfd46c2b.mp4
+ 
+</details>

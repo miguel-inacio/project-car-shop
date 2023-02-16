@@ -53,6 +53,36 @@ Rode os testes
 :heavy_exclamation_mark: A API ficará disponível no seu navegador no endereço <http://localhost:3001/>
 
 ### Documentação da API
+<details>
+  <summary>Tipos das entidades Car e Motorcycle</summary>
+  
+  ### Car
+  
+  ```bash
+    {
+      model: string,
+      year: number, 
+      color: string, 
+      status: boolean,  
+      buyValue: number, 
+      doorsQty: number, 
+      seatsQty: number, 
+    }
+```
+  ### Motorcycle
+ ```bash
+    {
+      model: string,
+      year: number, 
+      color: string, 
+      status: boolean,  
+      buyValue: number,
+      category: string,
+      engineCapacity: number,
+    }
+```
+  
+</details>
 
 <details>
   <summary> Rotas relacionadas à entidade Car </summary>
@@ -61,6 +91,19 @@ Rode os testes
 #####  POST /car
 - Usada para cadastrar um carro no banco de dados.
 - A requisição retorna o objeto enviado ao banco com seu novo e respectivo id.
+- :warning: A requisição deve ter corpo de acordo com o exemplo:
+
+```bash
+  {
+    "model": "Uno", 
+    "year": 2008, 
+    "color": "White", 
+    "status": true, 
+    "buyValue": 20000, 
+    "doorsQty": 4, 
+    "seatsQty": 5,
+  }  
+```
   
 <hr>
 
@@ -79,6 +122,19 @@ Rode os testes
 #####  PUT /car/${id}
 - Usada para atualizar o carro equivalente ao id passado.
 - Retorna o carro atualizado.
+- :warning: A requisição deve ter corpo de acordo com o exemplo:
+
+```bash
+  {
+    "model": "Uno", 
+    "year": 2008, 
+    "color": "White", 
+    "status": true, 
+    "buyValue": 20000, 
+    "doorsQty": 4, 
+    "seatsQty": 5,
+  }  
+```
   
 <hr>
   
@@ -94,6 +150,19 @@ Rode os testes
 #####  POST /motorcycle
 - Usada para cadastrar uma moto no banco de dados.
 - A requisição retorna o objeto enviado ao banco com seu novo e respectivo id.
+- :warning: A requisição deve ter corpo de acordo com o exemplo:
+
+```bash
+  {
+    "model": "Honda CG 160 Titan", 
+    "year": 2013, 
+    "color": "Red", 
+    "status": true, 
+    "buyValue": 4000, 
+    "category": Street,
+    "engineCapacity": 600,
+  }  
+```
   
 <hr>
 
@@ -112,6 +181,19 @@ Rode os testes
 #####  PUT /motorcycle/${id}
 - Usada para atualizar a moto equivalente ao id passado.
 - Retorna a moto atualizada.
+- :warning: A requisição deve ter corpo de acordo com o exemplo:
+
+```bash
+  {
+    "model": "Honda CG 160 Titan", 
+    "year": 2013, 
+    "color": "Red", 
+    "status": true, 
+    "buyValue": 4000, 
+    "category": Street,
+    "engineCapacity": 600,
+  }  
+```
   
 <hr>
   
